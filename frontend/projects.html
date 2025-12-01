@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+    <h2>Search Project Details</h2>
+
+    <input id="projectId" type="number" class="form-control w-25 mb-3" placeholder="Enter Project ID">
+    <button onclick="getProject()" class="btn btn-success">Search</button>
+
+    <hr>
+
+    <h4>Project Info</h4>
+    <pre id="projectResult"></pre>
+
+    <h4>Intern (Owner)</h4>
+    <pre id="internResult"></pre>
+
+    <h4>Evaluations</h4>
+    <pre id="evalResult"></pre>
+</div>
+
+<script>
+async function getProject() {
+    const id = document.getElementById("projectId").value;
+
+    const res = await fetch(`http://localhost:5000/api/projects/${id}`);
+    const data = await res.json();
+
+    document.getElementById("projectResult").textContent = JSON.stringify(data.Project, null, 4);
+    document.getElementById("internResult").textContent = JSON.stringify(data.Intern, null, 4);
+    document.getElementById("evalResult").textContent = JSON.stringify(data.Evaluations, null, 4);
+}
+</script>
+
+</body>
+</html>

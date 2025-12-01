@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filter Evaluations</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+    <h2>Filter Evaluations</h2>
+
+    <div class="row g-3">
+        <div class="col-md-2">
+            <input id="score" type="number" step="1" class="form-control" placeholder="Score">
+        </div>
+
+        <div class="col-md-2">
+            <input id="evaluator" type="text" class="form-control" placeholder="Evaluator">
+        </div>
+
+        <div class="col-md-2">
+            <input id="tech" type="text" class="form-control" placeholder="Tech">
+        </div>
+
+        <div class="col-md-3">
+            <input id="start" type="date" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <input id="end" type="date" class="form-control">
+        </div>
+    </div>
+
+    <button onclick="filterEval()" class="btn btn-warning mt-3">Filter</button>
+
+    <hr>
+
+    <h4>Results</h4>
+    <pre id="result"></pre>
+</div>
+
+<script>
+async function filterEval() {
+    const score = document.getElementById("score").value;
+    const evaluator = document.getElementById("evaluator").value;
+    const tech = document.getElementById("tech").value;
+    const start = document.getElementById("start").value;
+    const end = document.getElementById("end").value;
+
+    const url = new URL("http://localhost:5000/api/evaluations/filter");
+
+    if (score) url.searchParams.append("score", score);
+    if (evaluator) url.searchParams.append("evaluator", evaluator);
+    if (tech) url.searchParams.append("tech", tech);
+    if (start) url.searchParams.append("start", start);
+    if (end) url.searchParams.append("end", end);
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    document.getElementById("result").textContent = JSON.stringify(data, null, 4);
+}
+</script>
+
+</body>
+</html>
